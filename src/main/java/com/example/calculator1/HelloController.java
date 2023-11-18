@@ -47,23 +47,28 @@ public class HelloController
         double secondInputDouble = Double.parseDouble(secondInputString);
 
         calc.setOp2(secondInputDouble);
+        try {
+            calc.calculate();
 
-        calc.calculate();
+            double result = calc.getResult();
 
-        double result = calc.getResult();
+            if(Double.isNaN(result))
+            {
+                inputField.setText("Error");
+            }
+            else if (result == (int) result)
+            {
+                inputField.setText(Integer.toString((int) result));
+            }
+            else
+            {
+                inputField.setText(Double.toString(result));
+            }
+        } catch (DivisionByZeroException e) {
+            inputField.setText(e.getMessage());
+        }
 
-        if(Double.isNaN(result))
-        {
-            inputField.setText("Error");
-        }
-        else if (result == (int) result)
-        {
-            inputField.setText(Integer.toString((int) result));
-        }
-        else
-        {
-            inputField.setText(Double.toString(result));
-        }
+
     }
 
     @FXML
